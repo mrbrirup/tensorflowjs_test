@@ -28,4 +28,5 @@ assembly.onReady(
             //let dr = new Mrbr.UI.Test.AppDrawer();            
             //desktop.appendChild(dr);
         })
+        .catch(error=>{console.log(error)})
 })
