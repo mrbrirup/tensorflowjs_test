@@ -12,13 +12,14 @@ assembly.onReady(
     const entry = Mrbr.System.ManifestEntry;
     let body,
         appContainer,
-        desktop;
+        desktop,
+        innerDock;
     assembly.loadManifest(
         [
             //new entry(entry.FileTypes.Class, "Mrbr.UI.Containers.AppContainer")//,
-            new entry(entry.FileTypes.Component, "Mrbr.UI.Containers.Desktop")//,
+            new entry(entry.FileTypes.Component, "Mrbr.UI.Containers.Desktop"),
             //new entry(entry.FileTypes.Component, "Mrbr.UI.Test.AppDrawer"),
-            //new entry(entry.FileTypes.Class, "Mrbr.Html.Body")
+            new entry(entry.FileTypes.Component, "Mrbr.UI.Containers.Docker")
         ]
     ).then(
         result => {
