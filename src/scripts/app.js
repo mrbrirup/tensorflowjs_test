@@ -1,3 +1,4 @@
+const application = {};
 const assembly = Mrbr.System.Assembly;
 assembly.onReady(
     {
@@ -14,20 +15,16 @@ assembly.onReady(
         appContainer,
         desktop,
         innerDock;
-    assembly.loadManifest(
-        [
-            //new entry(entry.FileTypes.Class, "Mrbr.UI.Containers.AppContainer")//,
-            new entry(entry.FileTypes.Component, "Mrbr.UI.Containers.Desktop"),
-            //new entry(entry.FileTypes.Component, "Mrbr.UI.Test.AppDrawer"),
-            new entry(entry.FileTypes.Component, "Mrbr.UI.Containers.Docker")
-        ]
-    ).then(
+
+    assembly.loadManifest(Mrbr.UI.Utils.Utils.componentManifest("Mrbr.UI.Containers.Desktop", true, true).concat([new entry(entry.FileTypes.Style, "Mrbr.UI.Style.Default")])).then(
         result => {
-            desktop = new Mrbr.UI.Containers.Desktop();
+            application.desktop = new Mrbr.UI.Containers.Desktop({ navlocation: "right" });
+            //application.desktop.navlocation = "top";
+            document.body.appendChild(application.desktop);
             //appContainer = new Mrbr.UI.Containers.AppContainer();
             //appContainer.on("appcontainer-resize", function (evt) { console.log(evt.source.width, evt.source.height) })
             //let dr = new Mrbr.UI.Test.AppDrawer();            
             //desktop.appendChild(dr);
         })
-        .catch(error=>{console.log(error)})
+        .catch(error => { console.log(error) })
 })
