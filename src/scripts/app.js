@@ -18,7 +18,7 @@ assembly.onReady(
 
     assembly.loadManifest(Mrbr.UI.Utils.Utils.componentManifest("Mrbr.UI.Containers.Desktop", true, true).concat([new entry(entry.FileTypes.Style, "Mrbr.UI.Style.Default")])).then(
         result => {
-            application.desktop = new Mrbr.UI.Containers.Desktop({ navlocation: "bottom" });
+            application.desktop = new Mrbr.UI.Containers.Desktop({ navlocation: "right" });
             //application.desktop.navlocation = "top";
             document.body.appendChild(application.desktop);
             //appContainer = new Mrbr.UI.Containers.AppContainer();
@@ -26,7 +26,7 @@ assembly.onReady(
             //let dr = new Mrbr.UI.Test.AppDrawer();            
             //desktop.appendChild(dr);
             let dialog;
-            function showDialog() {
+            function showDialog(id) {
                 //_statusDialog.textContent = 'Dialog showed...';
                 //_showDialogButton.disabled = true;
                 if (!dialog) {
@@ -37,15 +37,19 @@ assembly.onReady(
                     let dialog = document.createElement("mrbr-ui-dialogs-dialog")
                     dialog.style = 'min-width:400px; min-height:280px;'
                     dialog.classList.add("dialog")
-                    dialog.id = "dialog"
+                    dialog.id = id;
                     dialog.container = application.desktop.desktop;
-                    document.body.appendChild(dialog);
+                    dialog.container.appendChild(dialog);
+                    let tb = document.getElementsByTagName("nav")[0];
+                    dialog.taskbarContainer = tb;
+                    //document.body.appendChild(dialog);
                     window.requestAnimationFrame(() => {
                         dialog.showDialog();
                     })
                 }
             }
-            showDialog();
+            showDialog("one");
+            showDialog("two");
 
 
         })
