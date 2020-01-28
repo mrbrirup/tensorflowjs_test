@@ -9,7 +9,7 @@ assembly.onReady(
             { replace: new RegExp("\\.", "g"), with: "/" }
         ]
     }
-).then(_ => {
+).then(_ => {    
     const entry = Mrbr.System.ManifestEntry;
     let body,
         appContainer,
@@ -18,7 +18,7 @@ assembly.onReady(
 
     assembly.loadManifest(Mrbr.UI.Utils.Utils.componentManifest("Mrbr.UI.Containers.Desktop", true, true).concat([new entry(entry.FileTypes.Style, "Mrbr.UI.Style.Default")])).then(
         result => {
-            application.desktop = new Mrbr.UI.Containers.Desktop({ navlocation: "top" });
+            application.desktop = new Mrbr.UI.Containers.Desktop({ navlocation: "bottom" });
             //application.desktop.navlocation = "top";
             document.body.appendChild(application.desktop);
             //appContainer = new Mrbr.UI.Containers.AppContainer();
@@ -35,7 +35,23 @@ assembly.onReady(
                     //dialog = new DialogBox(id, callbackDialog);
                     //let dialog = document.getElementById("dialog")
                     let dialog = document.createElement("mrbr-ui-dialogs-dialog")
-                    dialog.style = 'min-width:400px; min-height:280px;'
+                    dialog.contentTemplate = `<p>${id}</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+                    ea commodo consequat.</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+                    ea commodo consequat.</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+                    ea commodo consequat.</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+                    ea commodo consequat.</p>`
+                    dialog.title = `Dialog: ${id}`;
+                    dialog.style = 'min-width:400px; min-height:280px;width:400px;height:400px'
+                    if (id !== "one") {
+                        dialog.pin = "pinned";
+                    }
                     //dialog.classList.add("dialog")
                     dialog.id = id;
                     dialog.container = application.desktop.desktop;
@@ -45,14 +61,18 @@ assembly.onReady(
                     window.requestAnimationFrame(() => {
                         dialog.showDialog();
                     })
-                    dialog.title = `Dialog: ${id}`;
-                    dialog.closing( dialog.destroy.bind(dialog) , false)
+                    dialog.closing(dialog.destroy.bind(dialog), false)
+
                 }
             }
             showDialog("one");
             showDialog("two");
-
-
+            showDialog("three");
+            let d = new Mrbr.UI.Widgets.AssemblyMonitor({desktop:application.desktop})
+            // d.style.width = "24px"
+            // d.style.height = "24px"
+            // d.style.backgroundColor = "red";
+            application.desktop.controlBox.prepend(d);
         })
         .catch(error => { console.log(error) })
 })
