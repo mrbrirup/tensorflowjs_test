@@ -9,7 +9,7 @@ assembly.onReady(
             { replace: new RegExp("\\.", "g"), with: "/" }
         ]
     }
-).then(_ => {    
+).then(_ => {
     const entry = Mrbr.System.ManifestEntry;
     let body,
         appContainer,
@@ -25,54 +25,64 @@ assembly.onReady(
             //appContainer.on("appcontainer-resize", function (evt) { console.log(evt.source.width, evt.source.height) })
             //let dr = new Mrbr.UI.Test.AppDrawer();            
             //desktop.appendChild(dr);
-            let dialog;
-            function showDialog(id) {
-                //_statusDialog.textContent = 'Dialog showed...';
-                //_showDialogButton.disabled = true;
-                if (!dialog) {
-                    //var id = 'dialog';
-                    // Instanciate the Dialog Box
-                    //dialog = new DialogBox(id, callbackDialog);
-                    //let dialog = document.getElementById("dialog")
-                    let dialog = document.createElement("mrbr-ui-dialogs-dialog")
-                    dialog.contentTemplate = `<p>${id}</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-                    ea commodo consequat.</p>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-                    ea commodo consequat.</p>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-                    ea commodo consequat.</p>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-                    ea commodo consequat.</p>`
-                    dialog.title = `Dialog: ${id}`;
-                    dialog.style = 'min-width:400px; min-height:280px;width:400px;height:400px'
-                    if (id !== "one") {
-                        dialog.pin = "pinned";
-                    }
-                    //dialog.classList.add("dialog")
-                    dialog.id = id;
-                    dialog.container = application.desktop.desktop;
-                    dialog.container.appendChild(dialog);
-                    let tb = document.getElementsByTagName("nav")[0];
-                    dialog.taskbarContainer = tb;
-                    window.requestAnimationFrame(() => {
-                        dialog.showDialog();
-                    })
-                    dialog.closing(dialog.destroy.bind(dialog), false)
 
-                }
-            }
-            showDialog("one");
-            showDialog("two");
-            showDialog("three");
-            let d = new Mrbr.UI.Widgets.AssemblyMonitor({desktop:application.desktop})
-            // d.style.width = "24px"
-            // d.style.height = "24px"
-            // d.style.backgroundColor = "red";
-            application.desktop.controlBox.prepend(d);
+            const componentManifest = Mrbr.UI.Utils.Utils.componentManifest,
+                entry = Mrbr.System.ManifestEntry;
+            //debugger
+            assembly.loadManifest(componentManifest("Mrbr.UI.Dialogs.Dialog", true, true))
+                .then(result => {
+                    console.log("load1")
+                    function showDialog(id) {
+                        //let dialog;
+                        //_statusDialog.textContent = 'Dialog showed...';
+                        //_showDialogButton.disabled = true;
+                        //if (!dialog) {
+                        //var id = 'dialog';
+                        // Instanciate the Dialog Box
+                        //dialog = new DialogBox(id, callbackDialog);
+                        //let dialog = document.getElementById("dialog")
+                        let dialog = document.createElement("mrbr-ui-dialogs-dialog")
+                        dialog.contentTemplate = `<p>${id}</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+                        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+                        ea commodo consequat.</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+                        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+                        ea commodo consequat.</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+                        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+                        ea commodo consequat.</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+                        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+                        ea commodo consequat.</p>`
+                        dialog.title = `Dialog: ${id}`;
+                        dialog.style = 'min-width:400px; min-height:280px;width:400px;height:400px'
+                        if (id !== "one") {
+                            dialog.pin = "pinned";
+                        }
+                        //dialog.classList.add("dialog")
+                        dialog.id = id;
+                        dialog.container = application.desktop.desktop;
+                        dialog.container.appendChild(dialog);
+                        let tb = document.getElementsByTagName("nav")[0];
+                        dialog.taskbarContainer = tb;
+                        window.requestAnimationFrame(() => {
+                            dialog.showDialog();
+                        })
+                        //dialog.closing(dialog.destroy.bind(dialog), false)
+
+                        //}
+                    }
+                    showDialog("one");
+                    showDialog("two");
+                    showDialog("three");
+                })
+                .catch(error => { console.log(error) })
+
+            // let d = new Mrbr.UI.Widgets.AssemblyMonitor({desktop:application.desktop})
+            // // d.style.width = "24px"
+            // // d.style.height = "24px"
+            // // d.style.backgroundColor = "red";
+            // application.desktop.controlBox.prepend(d);
         })
         .catch(error => { console.log(error) })
 })
