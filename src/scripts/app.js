@@ -31,7 +31,6 @@ assembly.onReady(
             //debugger
             assembly.loadManifest(componentManifest("Mrbr.UI.Dialogs.Dialog", true, true))
                 .then(result => {
-                    console.log("load1")
                     function showDialog(id) {
                         //let dialog;
                         //_statusDialog.textContent = 'Dialog showed...';
