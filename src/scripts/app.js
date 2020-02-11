@@ -5,6 +5,7 @@ assembly.onReady(
         assemblyResolvers: [
             { replace: new RegExp("^Mrbr.UI\\.", "i"), with: "ui/" },
             { replace: new RegExp("^Mrbr\\.", "i"), with: "mrbrAssembly/" },
+            { replace: new RegExp("^mrbrAssembly\\/\.", "i"), with: function(entry){return entry.toLowerCase()} },
             { replace: new RegExp("^App\\.", "i"), with: "scripts/app/" },
             { replace: new RegExp("\\.", "g"), with: "/" }
         ]
@@ -40,7 +41,8 @@ assembly.onReady(
                         // Instanciate the Dialog Box
                         //dialog = new DialogBox(id, callbackDialog);
                         //let dialog = document.getElementById("dialog")
-                        let dialog = document.createElement("mrbr-ui-dialogs-dialog")
+                        //let dialog = document.createElement("mrbr-ui-dialogs-dialog")
+                        let dialog = document.createElement("mrbr-dialog-1")// instanceof Mrbr.UI.Dialogs.Dialog
                         dialog.contentTemplate = `<p>${id}</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
                         dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
                         ea commodo consequat.</p>
@@ -71,9 +73,47 @@ assembly.onReady(
 
                         //}
                     }
-                    showDialog("one");
-                    showDialog("two");
-                    showDialog("three");
+                    class mrbrDialog1 extends Mrbr.UI.Dialogs.Dialog {
+                        constructor(config){
+                            super(config)
+                        } 
+                        connectedCallback() {
+                            this._base_connectedCallback = Mrbr.UI.Dialogs.Dialog.prototype.connectedCallback.bind(this)
+                            this._base_connectedCallback()
+                            this.title = this.title.toUpperCase()
+                                    //window.requestAnimationFrame(()=>{                                        this.title= "My Title";                                    })
+                            // browser calls this method when the element is added to the document
+                            // (can be called many times if an element is repeatedly added/removed)
+                        }
+                    }
+                    window.requestAnimationFrame(()=>{                        
+                        //customElements.define("mrbr-dialog-1", mrbrDialog1,{ extends: customElements.get("mrbr-ui-dialogs-dialog")}) ;
+                        customElements.define("mrbr-dialog-1", mrbrDialog1) ;
+                        //customElements.define("mrbr-dialog-1", mrbrDialog1,{ extends: "mrbr-ui-dialogs-dialog"}) ;
+                        //customElements.define("mrbr-dialog-1", mrbrDialog1,{ extends: "Mrbr.UI.Dialogs.Dialog"}) ;
+                        showDialog("one");
+                        showDialog("two");
+                        showDialog("three");
+                    })
+
+                    //customElements.define("mrbr-controls-tables-table", MrbrControlsTablesTable, {extends:"table"})
+                    //assembly .then(()=>{ return                     })
+                    //.loadComponent("Mrbr.UI.Controls.Tables.TableElement")
+                    assembly.loadComponent("Mrbr.UI.Controls.Tables.Table")
+                    .then(()=>{
+
+                        // let tbl = document.createElement("mrbr-ui-controls-tables-table")
+                        // document.body.appendChild(tbl);
+                        // console.log(tbl)                    
+                        
+                        let tbl2 = Mrbr.UI.Controls.Tables.Table.create({name:"t2",id:"sdfghjk"});
+                        //let tbl2 = new Mrbr.UI.Controls.Tables.Table({name:"t2",id:"sdfghjk"});
+                        //tbl2.init();
+                        document.body.appendChild(tbl2);
+                        console.log(tbl2.id)                    
+                        //console.log(tbl2.name)                    
+
+                    }).catch(error=>console.log(error))
                 })
                 .catch(error => { console.log(error) })
 
@@ -85,3 +125,8 @@ assembly.onReady(
         })
         .catch(error => { console.log(error) })
 })
+class MrbrControlsTablesTable extends HTMLTableElement{
+    constructor(){
+        super();
+    }
+}
