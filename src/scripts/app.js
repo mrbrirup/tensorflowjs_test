@@ -106,7 +106,7 @@ assembly.onReady(
                         // document.body.appendChild(tbl);
                         // console.log(tbl)                    
                         
-                        let tbl2 = Mrbr.UI.Controls.Tables.Table.create({name:"t2",id:"sdfghjk"});
+                        let tbl2 = Mrbr.UI.Controls.Tables.Table.create({name:"t2",id:"sdfghjk", caption:"My Caption", header:true, body:true, footer:true});
                         //let tbl2 = new Mrbr.UI.Controls.Tables.Table({name:"t2",id:"sdfghjk"});
                         //tbl2.init();
                         document.body.appendChild(tbl2);
